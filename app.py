@@ -32,7 +32,7 @@ def print_title():
          {1}-------{2}U{1}-{2}U{1}----------------
          {1}|                        |       |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
          {1}|  {3}Code Author: {2}Gabriel Machado  {0}{1}|       {3}GitHub: {2}https://github.com/gabriel-machado-dev{0}
-         {1}|      {3}Version: {2}1.0      {0}{1}|             
+         {1}|      {3}Version: {2}1.1      {0}{1}|             
          {1}|                        |       |_____________________________________________|
          {1}--------------------------                        {2}\ (˶ᵔ ᵕ ᵔ˶) /{0}
                                                             {2}\         /{0}
@@ -198,7 +198,7 @@ def delete_task():
         print(f'{RED}No tasks added!{DEFAULT}')
         print('')
 
-def main():
+def main():   
     print_title()
     while True:
         print(f'{BLUE}Select an option:{DEFAULT}')
@@ -211,7 +211,6 @@ def main():
         option = input('Enter the number of the option: ')
         print('')
         if option == '1':
-            os.system('clear') if os.name == 'posix' else os.system('cls')
             add_task()
         elif option == '2':
             os.system('clear') if os.name == 'posix' else os.system('cls')
@@ -219,6 +218,8 @@ def main():
         elif option == '3':
             os.system('clear') if os.name == 'posix' else os.system('cls')
             update_task()
+            os.system('clear') if os.name == 'posix' else os.system('cls')
+            list_tasks()
         elif option == '4':
             os.system('clear') if os.name == 'posix' else os.system('cls')
             delete_task()
