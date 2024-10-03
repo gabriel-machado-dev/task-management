@@ -1,6 +1,7 @@
 import os 
 import datetime
 import json
+from time import sleep
 from rich.console import Console
 from rich.table import Table
 
@@ -32,7 +33,7 @@ def print_title():
          {1}-------{2}U{1}-{2}U{1}----------------
          {1}|                        |       |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
          {1}|  {3}Code Author: {2}Gabriel Machado  {0}{1}|       {3}GitHub: {2}https://github.com/gabriel-machado-dev{0}
-         {1}|      {3}Version: {2}1.4      {0}{1}|             
+         {1}|      {3}Version: {2}1.5      {0}{1}|             
          {1}|                        |       |_____________________________________________|
          {1}--------------------------                        {2}\ (˶ᵔ ᵕ ᵔ˶) /{0}
                                                             {2}\         /{0}
@@ -48,6 +49,7 @@ def select_day():
     for i, day in enumerate(weekdays, 1):
         print(f'{CYAN}{i}. {day}{DEFAULT}')
     print('')
+   
     day = input('Enter the number of the day: ')
     if day.isdigit() and 0 < int(day) <= len(weekdays):
         print(f'{GREEN}You selected {weekdays[int(day) - 1]}{DEFAULT}')
@@ -55,6 +57,8 @@ def select_day():
     else:
         print(f'{RED}Invalid day!{DEFAULT}')
         print('')
+        return select_day()
+    
 
     return day
         
@@ -64,7 +68,16 @@ def add_task():
         os.makedirs('weekdays', exist_ok=True)
         filename = f'weekdays/{weekdays[int(day) - 1]}.json'
         if os.path.exists(filename):
-            task = input('Enter the task: ')
+            while True:
+                task = input('Enter the task: ')
+                if not task or task.isspace() or task.isdigit():
+                    print(f'{RED}Invalid task!{DEFAULT}')
+                    print(f'{RED}Please enter a valid task{DEFAULT}')
+                    print('')
+                    continue
+                break
+
+        
             data = {'Task': task, 'Status': 'Pending'}
             with open(filename, 'r+', encoding='utf-8') as f:
                 tasks = json.load(f)
@@ -72,8 +85,17 @@ def add_task():
                 f.seek(0)
                 json.dump(tasks, f, indent=4, ensure_ascii=False)
             print(f'{GREEN}Task added successfully!{DEFAULT}')
+        
         else:
-            task = input('Enter the task: ')
+            while True:
+                task = input('Enter the task: ')
+                if not task or task.isspace() or task.isdigit():
+                    print(f'{RED}Invalid task!{DEFAULT}')
+                    print(f'{RED}Please enter a valid task{DEFAULT}')
+                    print('')
+                    continue
+                break
+
             data = [{'Task': task, 'Status': 'Pending'}]
             with open(filename , 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
@@ -226,9 +248,11 @@ def main():
             delete_task()
         elif option == '5':
             print(f'{YELLOW}Goodbye!{DEFAULT}')
+            sleep(3)
             break
         else:
             print(f'{RED}Invalid option!{DEFAULT}')
+            print(f'{YELLOW}Please enter a number between 1 and 5{DEFAULT}')
             print('')
             continue
 
