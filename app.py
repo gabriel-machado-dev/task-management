@@ -32,7 +32,7 @@ def print_title():
          {1}-------{2}U{1}-{2}U{1}----------------
          {1}|                        |       |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
          {1}|  {3}Code Author: {2}Gabriel Machado  {0}{1}|       {3}GitHub: {2}https://github.com/gabriel-machado-dev{0}
-         {1}|      {3}Version: {2}1.1      {0}{1}|             
+         {1}|      {3}Version: {2}1.4      {0}{1}|             
          {1}|                        |       |_____________________________________________|
          {1}--------------------------                        {2}\ (˶ᵔ ᵕ ᵔ˶) /{0}
                                                             {2}\         /{0}
@@ -70,13 +70,13 @@ def add_task():
                 tasks = json.load(f)
                 tasks.append(data)
                 f.seek(0)
-                json.dump(tasks, f, indent=4)
+                json.dump(tasks, f, indent=4, ensure_ascii=False)
             print(f'{GREEN}Task added successfully!{DEFAULT}')
         else:
             task = input('Enter the task: ')
             data = [{'Task': task, 'Status': 'Pending'}]
             with open(filename , 'w', encoding='utf-8') as f:
-                json.dump(data, f, indent=4)
+                json.dump(data, f, indent=4, ensure_ascii=False)
             print(f'{GREEN}Task added successfully!{DEFAULT}')
         print('')
 
@@ -89,7 +89,7 @@ def list_tasks():
             with open(filename, 'r', encoding='utf-8') as f:
                 tasks = json.load(f)
                 print(f'{CYAN}{i}. {day}{DEFAULT}')
-                table = Table(title=f'{day}')
+                table = Table(title=f'{day}', show_lines=True)
                 table.add_column('ID', justify='center', style='cyan', no_wrap=True)
                 table.add_column('Task', justify='center', style='cyan', no_wrap=True)
                 table.add_column('Status', justify='center', style='magenta', no_wrap=True)
@@ -198,8 +198,8 @@ def delete_task():
         print(f'{RED}No tasks added!{DEFAULT}')
         print('')
 
-def main():   
-    print_title()
+def main(): 
+    print_title()  
     while True:
         print(f'{BLUE}Select an option:{DEFAULT}')
         print(f'{CYAN}1. Add task{DEFAULT}')
@@ -211,6 +211,7 @@ def main():
         option = input('Enter the number of the option: ')
         print('')
         if option == '1':
+            os.system('clear') if os.name == 'posix' else os.system('cls')
             add_task()
         elif option == '2':
             os.system('clear') if os.name == 'posix' else os.system('cls')
